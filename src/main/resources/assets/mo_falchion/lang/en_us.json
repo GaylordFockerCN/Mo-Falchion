@@ -1,3 +1,8 @@
 {
-  "item.mo_falchion.falchion": "Falchion"
+  "item.mo_falchion.falchion": "Falchion",
+  "skill.mo_falchion.falchion_combo": "龙吟破天",
+  "skill.mo_falchion.falchion_combo.tooltip1": "Press KEY1 to perform a normal attack, which can also be used during sprinting and jumping.",
+  "skill.mo_falchion.falchion_combo.tooltip2": "Press KEY2 during the gap between KEY1 combo hits to perform a slicing heavy strike, ignoring damage for a short time and dealing a powerful blow to the opponent!",
+  "skill.mo_falchion.falchion_combo.tooltip3": "When the charge bar is not full, press the right mouse button to block. If you perfectly block the enemy's attack, press KEY2 to perform a powerful block counterattack! It will also reset the cooldown of the skill.",
+  "skill.mo_falchion.falchion_combo.tooltip4": "The charge bar can stack up to four layers. Press both KEY1 and KEY2 at the same time to unleash a powerful heavy strike, dealing massive damage to the enemy! This will trigger a 15-second cooldown."
 }

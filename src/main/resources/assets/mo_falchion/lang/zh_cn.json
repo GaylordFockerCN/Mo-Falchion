@@ -1,3 +1,8 @@
 {
-  "item.mo_falchion.falchion": "偃月刀"
+  "item.mo_falchion.falchion": "偃月刀",
+  "skill.mo_falchion.falchion_combo": "龙吟破天",
+  "skill.mo_falchion.falchion_combo.tooltip1": "按下KEY1释放普通攻击，冲刺和跳跃状态亦可使用。",
+  "skill.mo_falchion.falchion_combo.tooltip2": "KEY1连段的间隙按下KEY2释放切手重击，短时间内无视伤害，并对对手造成强烈一击！",
+  "skill.mo_falchion.falchion_combo.tooltip3": "充能条未满时，按鼠标右键可以进行格挡。若完美格挡敌人的攻击，按下KEY2可释放强力的格挡反击！并且清除技能的冷却。",
+  "skill.mo_falchion.falchion_combo.tooltip4": "充能条最多可叠四层，同时按下KEY1和KEY2可释放强烈的重击，对敌人造成巨大的伤害！同时将进入15s的冷却。"
 }
