@@ -1,9 +1,12 @@
 package com.p1nero.mo_falchion.gameassets;
 
 import com.p1nero.mo_falchion.MoFalchionMod;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.property.MoveCoordFunctions;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
@@ -12,10 +15,15 @@ import yesman.epicfight.api.animation.types.MovementAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.api.utils.AttackResult;
+import yesman.epicfight.api.utils.LevelUtil;
 import yesman.epicfight.api.utils.TimePairList;
 import yesman.epicfight.api.utils.math.ValueModifier;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.model.armature.HumanoidArmature;
+import yesman.epicfight.world.damagesource.StunType;
+
+import static yesman.epicfight.gameasset.Animations.ReusableSources.FRACTURE_GROUND_SIMPLE;
 
 @Mod.EventBusSubscriber(modid = MoFalchionMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Animations {
@@ -49,6 +57,7 @@ public class Animations {
         FALCHION_BLOCK = new StaticAnimation(true, "biped/block", biped);
         FALCHION_BLOCK_ATTACK = new BasicAttackAnimation(0.1F, 0.8F, 1.0F, 1.5F, null, biped.toolR, "biped/block_attack", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(1.53F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.KNOCKDOWN)
                 .newTimePair(0.0F, 1.2F)
                 .addStateRemoveOld(EntityState.ATTACK_RESULT, (damageSource) -> AttackResult.ResultType.BLOCKED)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.0F));
@@ -69,14 +78,23 @@ public class Animations {
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.0F));
         FALCHION_AUTO4 = new BasicAttackAnimation(0.1F, 0.6F, 0.8F, 1.3F, null, biped.toolR, "biped/auto4", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(1.8F))
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.0F));
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.0F))
+                .addEvents(AnimationEvent.TimeStampedEvent.create(0.7F, ((livingEntityPatch, staticAnimation, objects) -> {
+                    LivingEntity entity = livingEntityPatch.getOriginal();
+                    Vec3 pos = entity.position();
+                    Vec3 dir = entity.getViewVector(1.0F).normalize().scale(2);
+                    Vec3 target = pos.add(dir.x, -1, dir.z);
+                    LevelUtil.circleSlamFracture(entity, entity.level(), target, 1.5);
+                }), AnimationEvent.Side.SERVER));
         FALCHION_HEAVY_IN_COMBO = new BasicAttackAnimation(0.4F, 0.66F, 0.86F, 1.533F, null, biped.toolR, "biped/heavy_in_combo", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(1.5F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.LONG)
                 .newTimePair(0.0F, 0.66F)
                 .addStateRemoveOld(EntityState.ATTACK_RESULT, (damageSource) -> AttackResult.ResultType.BLOCKED)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.0F));
         FALCHION_HEAVY = new BasicAttackAnimation(0.1F, 1.6F, 1.8F, 2.2F, null, biped.toolR, "biped/heavy", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(2.4F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.KNOCKDOWN)
                 .addProperty(AnimationProperty.ActionAnimationProperty.MOVE_ON_LINK, false)
                 .addProperty(AnimationProperty.ActionAnimationProperty.NO_GRAVITY_TIME, TimePairList.create(0.0F, 1.333F))
                 .addProperty(AnimationProperty.ActionAnimationProperty.COORD_UPDATE_TIME, TimePairList.create(0.0F, 1.333F))
@@ -85,7 +103,14 @@ public class Animations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.COORD_GET, MoveCoordFunctions.WORLD_COORD)
                 .newTimePair(0.0F, 2.0F)
                 .addStateRemoveOld(EntityState.ATTACK_RESULT, (damageSource) -> AttackResult.ResultType.BLOCKED)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.0F)) ;
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, ((dynamicAnimation, livingEntityPatch, v, v1, v2) -> 1.0F))
+                .addEvents(AnimationEvent.TimeStampedEvent.create(1.7F, ((livingEntityPatch, staticAnimation, objects) -> {
+                    LivingEntity entity = livingEntityPatch.getOriginal();
+                    Vec3 pos = entity.position();
+                    Vec3 dir = entity.getViewVector(1.0F).normalize().scale(2);
+                    Vec3 target = pos.add(dir.x, -1, dir.z);
+                    LevelUtil.circleSlamFracture(entity, entity.level(), target, 2);
+                }), AnimationEvent.Side.SERVER));
     }
 
 }

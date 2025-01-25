@@ -37,7 +37,7 @@ public class Skills {
         ComboNode aaa = ComboNode.createNode(() -> Animations.FALCHION_AUTO3);
         ComboNode aaaa = ComboNode.createNode(() -> Animations.FALCHION_AUTO4).setCanBeInterrupt(false);
         ComboNode heavy = ComboNode.createNode(() -> Animations.FALCHION_HEAVY)
-                .addCondition(new StackCondition(1, 3))
+                .addCondition(new StackCondition(1, Integer.MAX_VALUE))
                 .addCondition(new CooldownCondition())
                 .setNotCharge(true)
                 .setCooldown(300)
