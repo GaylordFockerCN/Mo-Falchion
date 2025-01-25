@@ -32,6 +32,7 @@ public class FalchionComboAttack extends ComboBasicAttack {
 
     @Override
     public void onRemoved(SkillContainer container) {
+        super.onRemoved(container);
         container.getExecuter().getEventListener().removeListener(PlayerEventListener.EventType.HURT_EVENT_PRE, EVENT_UUID);
     }
 
