@@ -48,15 +48,7 @@ public class Skills {
                         container.getSkill().setConsumptionSynchronize(serverPlayerPatch, 1);
                     }
                 })));
-        ComboNode blockAttack = ComboNode.createNode(()->Animations.FALCHION_BLOCK_ATTACK).setNotCharge(true).setCooldown(1).addCondition(new CustomCondition() {
-            @Override
-            public boolean predicate(LivingEntityPatch<?> entityPatch) {
-                if(entityPatch instanceof ServerPlayerPatch serverPlayerPatch){
-                    return serverPlayerPatch.getSkill(SkillSlots.WEAPON_INNATE).getDataManager().getDataValue(SkillDataKeys.BLOCK_SUCCESS_TIMER.get()) > 0;
-                }
-                return false;
-            }
-        });
+        ComboNode blockAttack = ComboNode.createNode(()->Animations.FALCHION_BLOCK_ATTACK).setNotCharge(true).setCooldown(1).addCondition(new ParrySuccessCondition());
         ComboNode comboB = ComboNode.createNode(() -> Animations.FALCHION_HEAVY_IN_COMBO).setNotCharge(true);
         a.key2(comboB);
         a.key1(aa);
