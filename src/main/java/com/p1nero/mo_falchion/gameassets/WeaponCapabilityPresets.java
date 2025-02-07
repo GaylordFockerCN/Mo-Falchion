@@ -21,8 +21,8 @@ public class WeaponCapabilityPresets {
             (CapabilityItem.Builder) WeaponCapability.builder().category(CapabilityItem.WeaponCategories.LONGSWORD)//蹭格挡
                     .styleProvider((entityPatch) -> CapabilityItem.Styles.TWO_HAND)
                     .collider(new MultiOBBCollider(3, 0.5, 1.0, 1.5, 0.0, 0.0, -1.0))
-                    .swingSound(EpicFightSounds.WHOOSH_BIG.get())
-                    .hitSound(EpicFightSounds.BLADE_HIT.get())
+                    .swingSound(EpicFightSounds.WHOOSH_BIG)
+                    .hitSound(EpicFightSounds.BLADE_HIT)
                     .hitParticle(EpicFightParticles.HIT_BLADE.get())
                     .canBePlacedOffhand(false)
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.FALCHION_AUTO1)
@@ -36,6 +36,6 @@ public class WeaponCapabilityPresets {
 
     @SubscribeEvent
     public static void register(WeaponCapabilityPresetRegistryEvent event) {
-        event.getTypeEntry().put(new ResourceLocation(MoFalchionMod.MOD_ID, "mo_falchion"), MO_FALCHION);
+        event.getTypeEntry().put("mo_falchion", MO_FALCHION);
     }
 }

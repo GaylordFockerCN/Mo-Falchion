@@ -1,9 +1,9 @@
 package com.p1nero.mo_falchion;
 
+import com.p1nero.mo_falchion.gameassets.Skills;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -17,7 +17,7 @@ import yesman.epicfight.world.item.WeaponItem;
 public class MoFalchionMod {
     public static final String MOD_ID = "mo_falchion";
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
-    public static final RegistryObject<Item> FALCHION = ITEMS.register("falchion", () -> new WeaponItem(Tiers.NETHERITE, 12, -2.4F, new Item.Properties()) {
+    public static final RegistryObject<Item> FALCHION = ITEMS.register("falchion", () -> new WeaponItem(Tiers.NETHERITE, 12, -2.4F, new Item.Properties().tab(EpicFightCreativeTabs.ITEMS)) {
         @Override
         public boolean isCorrectToolForDrops(BlockState blockIn) {
             return super.isCorrectToolForDrops(blockIn);
@@ -26,13 +26,7 @@ public class MoFalchionMod {
     public MoFalchionMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ITEMS.register(modEventBus);
-        modEventBus.addListener(this::addCreative);
-    }
-
-    private void addCreative(BuildCreativeModeTabContentsEvent event){
-        if (event.getTab() == EpicFightCreativeTabs.ITEMS.get()){
-            event.accept(FALCHION);
-        }
+        Skills.registerSkills();
     }
 
 }
